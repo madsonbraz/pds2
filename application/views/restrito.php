@@ -22,17 +22,17 @@
     <div class="container">
 
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab_cursos" role="tab" data-toggle="tab">Cursos</a></li>
+            <li class="active"><a href="#tab_courses" role="tab" data-toggle="tab">Cursos</a></li>
             <li ><a href="#tab_team" role="tab" data-toggle="tab">Equipe</a></li>
             <li ><a href="#tab_user" role="tab" data-toggle="tab">Usuários</a></li>
         </ul>
 
         <div class="tab-content">
-            <div id="tab_cursos" class="tab-pane active">
+            <div id="tab_courses" class="tab-pane active">
                 <div class="container-fluid">
                     <h2 class="text-center"><strong>Gerenciar Cursos</strong></h2>
                     <a id="btn_add_course" class="btn btn-primary"><i class="fa fa-plus">&nbsp;&nbsp;Adicionar Curso</i></a>
-                    <table id="dt_curses" class="table table-striped table-bordered"> 
+                    <table id="dt_courses" class="table table-striped table-bordered"> 
                         <thead>
                             <tr class="tableheader">
                                 <th>Nome</th>
@@ -99,7 +99,7 @@
             <div class="modal-body">
                 <form id="form_course">
 
-                    <input name="course_id" hidden>
+                    <input id="course_id" name="course_id" hidden>
 
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Nome</label>
@@ -123,9 +123,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-lg-2 control-label">Duração</label>
+                        <label class="col-lg-2 control-label">Duração (h)</label>
                         <div class="col-lg-10">
-                            <input type="number" min="0" id="course_duration" name="course_duration" class="form-control">
+                            <input type="number" step="0.1" id="course_duration" name="course_duration" class="form-control">
                             <span class="help-block"></span>
                         </div>
                     </div>

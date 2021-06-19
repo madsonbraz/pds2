@@ -14,8 +14,17 @@ function showErrors(error_list){
     })
 }
 
+function showErrorsModal(error_list){
+    clearErrors();
+
+    $.each(error_list, function(id, message){
+        $(id).parent().parent().addClass("has-error");
+        $(id).siblings(".help-block").html(message)
+    })
+}
+
 function loadingImg(message=""){
-    return "<i class='fa da-circle-o-notch fa-spin'></i>$nbsp;" + message
+    return "<i class='fa fa-circle-o-notch fa-spin'></i>$nbsp;" + message
 }
 
 function uploadImg(input_file, img, input_path){
@@ -26,7 +35,7 @@ function uploadImg(input_file, img, input_path){
 
     form_data.append("image_file", img_file);
 
-    $ajax({
+    $.ajax({
         url: BASE_URL + "restrito/ajax_import_image",
         dataType: "json",
         cache: false,
@@ -36,16 +45,16 @@ function uploadImg(input_file, img, input_path){
         type: "POST",
         beforeSend: function(){
             clearErrors();
-            input_input_path.siblings(".help-block").html(loadingImg("Carregando imagem..."));
+            input_path.siblings(".help-block").html(loadingImg("Carregando imagem..."));
         },
-        sucess: function(response){
+        success: function(response){
             clearErrors();
             if(response["status"]){
-                img.attr("src"), response["img_path"];
+                img.attr("src", response["img_path"]);
                 input_path.val(response["img_path"]);
             }else{
                 img.attr("src", src_before);
-                input_path.siblings(".help-block").html(reponse["error"]);
+                input_path.siblings(".help-block").html(response["error"]);
             }
         },
         error: function(){

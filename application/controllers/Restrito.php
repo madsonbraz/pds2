@@ -74,6 +74,7 @@ class Restrito extends CI_Controller {
 		
 		echo json_encode($json);
 	}
+
 	public function ajax_import_image(){
 		
 		if(!$this->input->is_ajax_request()){
@@ -83,12 +84,12 @@ class Restrito extends CI_Controller {
 		$config["allowed_types"] = "gif|png|jpg";
 		$config["overwrite"] = TRUE;
 
-		$this->load-library("upload",$config);
+		$this->load->library("upload", $config);
 
 		$json = array();
 		$json["status"] = 1;
 
-		if(!$this->ipload->do_upload("image_file")){
+		if(!$this->upload->do_upload("image_file")){
 			$json["status"] = 0;
 			$json["error"] = $this->upload->display_errors("","");
 		}else{
@@ -102,6 +103,61 @@ class Restrito extends CI_Controller {
 
 		}
 
-		echo json_enconde($json);
+		echo json_encode($json);
+	}
+
+	public function ajax_save_course(){
+		
+		if(!$this->input->is_ajax_request()){
+			exit("Acesso não permitido");
+		}
+		
+		$this->load->library("upload", $config);
+
+		$json = array();
+		$json["status"] = 1;
+		$json["error_list"] = array();
+
+		$this->load->model("courses_model");
+		$data = $this->input->post();
+
+		if (empty($data["course_name"])){
+			$json["error_list"]["#course_name"] = "Nome do curso é obrigatório";
+		}else{
+			if ($this->courses_model->is_duplicated("course_name", $data["course_name"], $data["course_id"])){
+				$json["erro_list"]["#course_name"] = "Nome do curso já existe!";
+			}
+		}
+
+		$data["course_daration"] = floatval($data["course_duration"]);
+		if (empty($data["course_duration"])){
+			$json["error_list"]["#course_duration"] = "Duração do curso é obrigatório";
+		}else{
+			if (!($data["course_duration"] > 0 && $data["course_duration"] < 100)){
+				$json["erro_list"]["#course_duration"] = "Duração do curso deve ser valores entre 0h e 100h!";
+			}
+		}
+
+		if (!empty($json["error_list"])){
+			$json["status"] = 0;
+		}else{
+			if(!empty($data["course_img"])){
+				$file_name = basename($data["course_img"]);
+				$old_path = getcwd() . "/tmp/" . $file_name;
+				$new_path = getcwd() . "/public/images/courses/" . $file_name;
+
+				$data["course_img"] = "/public/images/courses/" . $file_name;
+
+			}
+			if (empty($data["course_id"])){
+				$this->courses_model->insert($data);
+			}else{
+				$course_id = $data["course_id"];
+				unset($data["course_id"]);
+				$this->courses_model->update($course_id, $data);
+			}
+		}
+
+		echo json_encode($json);
 	}
 }
