@@ -117,7 +117,7 @@
                                 <i class="fa fa-upload"></i>&nbsp;&nbsp;Importar Imagem
                                 <input type="file" id="btn_upload_course_img" accept="image/*" style="display:none;">
                             </label>
-                            <input id="course_img" name="course_img">
+                            <input id="course_img" name="course_img" hidden>
                             <span class="help-block"></span>
                         </div>
                     </div>

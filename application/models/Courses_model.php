@@ -9,10 +9,11 @@ class Courses_model extends CI_Model{
     
     public function get_data($id, $select = NULL){
         if(!empty($select)){
-            $this->db->selecrt($select);
+            $this->db->select($select);
         }
         $this->db->from("courses");
         $this->db->from("course_id", $id);
+        return $this->db->get();
     }
 
     public function insert($data){

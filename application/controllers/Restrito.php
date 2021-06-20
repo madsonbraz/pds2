@@ -112,13 +112,12 @@ class Restrito extends CI_Controller {
 			exit("Acesso não permitido");
 		}
 		
-		$this->load->library("upload", $config);
-
 		$json = array();
 		$json["status"] = 1;
 		$json["error_list"] = array();
 
 		$this->load->model("courses_model");
+		
 		$data = $this->input->post();
 
 		if (empty($data["course_name"])){
@@ -148,13 +147,57 @@ class Restrito extends CI_Controller {
 
 				$data["course_img"] = "/public/images/courses/" . $file_name;
 
+			} else {
+				unset($data["course_img"]);
 			}
 			if (empty($data["course_id"])){
 				$this->courses_model->insert($data);
-			}else{
+			} else {
 				$course_id = $data["course_id"];
 				unset($data["course_id"]);
 				$this->courses_model->update($course_id, $data);
+			}
+		}
+
+		echo json_encode($json);
+	}
+
+	public function ajax_save_member(){
+		
+		if(!$this->input->is_ajax_request()){
+			exit("Acesso não permitido");
+		}
+		
+		$this->load->library("upload", $config);
+
+		$json = array();
+		$json["status"] = 1;
+		$json["error_list"] = array();
+
+		$this->load->model("team_model");
+		$data = $this->input->post();
+
+		if (empty($data["member_name"])){
+			$json["error_list"]["#member_name"] = "Nome do membro é obrigatório";
+		}
+
+		if (!empty($json["error_list"])){
+			$json["status"] = 0;
+		}else{
+			if(!empty($data["member_photo"])){
+				$file_name = basename($data["member_photo"]);
+				$old_path = getcwd() . "/tmp/" . $file_name;
+				$new_path = getcwd() . "/public/images/team/" . $file_name;
+
+				$data["member_photo"] = "/public/images/team/" . $file_name;
+
+			}
+			if (empty($data["member_id"])){
+				$this->courses_model->insert($data);
+			}else{
+				$member_id = $data["memeer_id"];
+				unset($data["member_id"]);
+				$this->team_model->update($member_id, $data);
 			}
 		}
 

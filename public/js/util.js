@@ -24,7 +24,7 @@ function showErrorsModal(error_list){
 }
 
 function loadingImg(message=""){
-    return "<i class='fa fa-circle-o-notch fa-spin'></i>$nbsp;" + message
+    return "<i class='fa fa-circle-o-notch fa-spin'></i>&nbsp;" + message
 }
 
 function uploadImg(input_file, img, input_path){
