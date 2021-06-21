@@ -178,7 +178,7 @@ class Restrito extends CI_Controller {
 		$data = $this->input->post();
 
 		if (empty($data["member_name"])){
-			$json["error_list"]["#member_name"] = "Nome do membro é obrigatório";
+			$json["error_list"]["#member_name"] = "Nome do membro é obrigatório!";
 		}
 
 		if (!empty($json["error_list"])){
