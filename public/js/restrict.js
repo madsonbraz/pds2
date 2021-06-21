@@ -30,7 +30,7 @@ $(function(){
     $("#form_course").submit(function(){
         $.ajax({
             type: "POST",
-            url: BASE_URL + "restrict/ajax_save_course",
+            url: BASE_URL + "restrito/ajax_save_course",
             dataType: "json",
             data: $(this).serialize(),
             beforeSend: function(){

@@ -30,7 +30,7 @@ class Courses_model extends CI_Model{
         $this->db->delete("courses");
     }
 
-    public function is_duplicated($field, $vakue, $id = NULL){
+    public function is_duplicated($field, $value, $id = NULL){
         if (!empty($id)){
              $this->db->where("course_id <>", $id);
         }

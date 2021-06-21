@@ -124,16 +124,16 @@ class Restrito extends CI_Controller {
 			$json["error_list"]["#course_name"] = "Nome do curso é obrigatório";
 		}else{
 			if ($this->courses_model->is_duplicated("course_name", $data["course_name"], $data["course_id"])){
-				$json["erro_list"]["#course_name"] = "Nome do curso já existe!";
+				$json["error_list"]["#course_name"] = "Nome do curso já existe!";
 			}
 		}
 
-		$data["course_daration"] = floatval($data["course_duration"]);
+		$data["course_duration"] = floatval($data["course_duration"]);
 		if (empty($data["course_duration"])){
 			$json["error_list"]["#course_duration"] = "Duração do curso é obrigatório";
 		}else{
 			if (!($data["course_duration"] > 0 && $data["course_duration"] < 100)){
-				$json["erro_list"]["#course_duration"] = "Duração do curso deve ser valores entre 0h e 100h!";
+				$json["error_list"]["#course_duration"] = "Duração do curso deve ser valores entre 0h e 100h!";
 			}
 		}
 
@@ -144,12 +144,14 @@ class Restrito extends CI_Controller {
 				$file_name = basename($data["course_img"]);
 				$old_path = getcwd() . "/tmp/" . $file_name;
 				$new_path = getcwd() . "/public/images/courses/" . $file_name;
+				rename($old_path, $new_path);
 
 				$data["course_img"] = "/public/images/courses/" . $file_name;
 
 			} else {
 				unset($data["course_img"]);
 			}
+
 			if (empty($data["course_id"])){
 				$this->courses_model->insert($data);
 			} else {
