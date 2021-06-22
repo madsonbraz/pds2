@@ -28,7 +28,7 @@ class Users_model extends CI_Model{
             $this->db->select($select);
         }
         $this->db->from("users");
-        $this->db->from("user_id", $id);
+        $this->db->where("user_id", $id);
         return $this->db->get();
     }
 
