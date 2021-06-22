@@ -16,7 +16,8 @@ class Restrito extends CI_Controller {
 				"scripts" => array(
 					"util.js",
 					"restrict.js"
-				)
+				),
+				"user_id" => $this->session->userdata("user_id")
 			);
 
 			$this->template->show("restrito.php", $data);
@@ -170,13 +171,12 @@ class Restrito extends CI_Controller {
 			exit("Acesso não permitido");
 		}
 		
-		$this->load->library("upload", $config);
-
 		$json = array();
 		$json["status"] = 1;
 		$json["error_list"] = array();
 
 		$this->load->model("team_model");
+
 		$data = $this->input->post();
 
 		if (empty($data["member_name"])){
@@ -186,6 +186,7 @@ class Restrito extends CI_Controller {
 		if (!empty($json["error_list"])){
 			$json["status"] = 0;
 		}else{
+
 			if(!empty($data["member_photo"])){
 				$file_name = basename($data["member_photo"]);
 				$old_path = getcwd() . "/tmp/" . $file_name;
@@ -195,13 +196,108 @@ class Restrito extends CI_Controller {
 
 			}
 			if (empty($data["member_id"])){
-				$this->courses_model->insert($data);
+				$this->team_model->insert($data);
 			}else{
-				$member_id = $data["memeer_id"];
+				$member_id = $data["member_id"];
 				unset($data["member_id"]);
 				$this->team_model->update($member_id, $data);
 			}
 		}
+
+		echo json_encode($json);
+	}
+
+	public function ajax_save_user(){
+		
+		if(!$this->input->is_ajax_request()){
+			exit("Acesso não permitido");
+		}
+		
+		$json = array();
+		$json["status"] = 1;
+		$json["error_list"] = array();
+
+		$this->load->model("users_model");
+		
+		$data = $this->input->post();
+
+		if (empty($data["user_login"])){
+			$json["error_list"]["#user_login"] = "Login é obrigatório";
+		}else{
+			if ($this->users_model->is_duplicated("user_login", $data["user_login"], $data["user_id"])){
+				$json["error_list"]["#user_login"] = "Login já existe!";
+			}
+		}
+
+		if (empty($data["user_full_name"])){
+			$json["error_list"]["#user_full_name"] = "Nome completo é obrigatório";
+		}
+
+		if (empty($data["user_email"])){
+			$json["error_list"]["#user_email"] = "E-mail é obrigatório";
+		}else{
+			if ($this->users_model->is_duplicated("user_email", $data["user_email"], $data["user_id"])){
+				$json["error_list"]["#user_email"] = "E-mail já existe!";
+			}else{
+				if($data["user_email"] != $data["user_email_confirm"]){
+					$json["error_list"]["user_email"] = "";
+					$json["error_list"]["user_email_confirm"] = "E-mails não conferem!";
+				}
+			}
+		}
+
+		if (empty($data["user_password"])){
+			$json["error_list"]["#user_password"] = "Senha é obrigatório";
+		}else{
+			if($data["user_password"] != $data["user_password_confirm"]){
+				$json["error_list"]["user_password"] = "";
+				$json["error_list"]["user_password_confirm"] = "Senhas não conferem!";
+			}
+		}
+		
+
+		if (!empty($json["error_list"])){
+			$json["status"] = 0;
+		}else{
+			$data["password_hash"] = password_hash($data["user_password"], PASSWORD_DEFAULT);
+
+			unset($data["user_password"]);
+			unset($data["user_password_confirm"]);
+			unset($data["user_email_confirm"]);
+
+			if (empty($data["user_id"])){
+				$this->users_model->insert($data);
+			} else {
+				$user_id = $data["user_id"];
+				unset($data["user_id"]);
+				$this->users_model->update($user_id, $data);
+			}
+		}
+
+		echo json_encode($json);
+	}
+
+	public function ajax_get_user_data(){
+		
+		if(!$this->input->is_ajax_request()){
+			exit("Acesso não permitido");
+		}
+		
+		$json = array();
+		$json["status"] = 1;
+		$json["input"] = array();
+		
+		$this->load->model("users_model");
+		
+		$user_id = $this->input->post("user_id");
+		$data = $this->users_model->get_data($user_id)->result_array()[0];
+		$json["input"]["user_id"] = $data["user_id"];
+		$json["input"]["user_login"] = $data["user_login"];
+		$json["input"]["user_full_name"] = $data["user_full_name"];
+		$json["input"]["user_email"] = $data["user_email"];
+		$json["input"]["user_email_confirm"] = $data["user_email"];
+		$json["input"]["user_password"] = $data["password_hash"];
+		$json["input"]["user_password_confirm"] = $data["password_hash"];
 
 		echo json_encode($json);
 	}

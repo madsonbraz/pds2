@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-lg-offset-5 col-lg-2 text-center">
                 <div class="form-group">
-                    <a class="btn btn-link"><i class="fa fa-user"></i></a>
+                    <a id="btn_your_user" class="btn btn-link" user_id="<?=$user_id?>"><i class="fa fa-user"></i></a>
                     <a class="btn btn-link" href="restrito/logoff"><i class="fa fa-sign-out"></i></a>
                 </div>
             </div>
@@ -218,7 +218,7 @@
 
             <div class="modal-body">
                 <form id="form_user">
-                    <input name="user_id" hidden>
+                    <input id="user_id" name="user_id" hidden>
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Login</label>
                         <div class="col-lg-10">

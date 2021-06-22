@@ -25,10 +25,11 @@ class Users_model extends CI_Model{
 
     public function get_data($id, $select = NULL){
         if(!empty($select)){
-            $this->db->selecrt($select);
+            $this->db->select($select);
         }
         $this->db->from("users");
         $this->db->from("user_id", $id);
+        return $this->db->get();
     }
 
     public function insert($data){
@@ -45,7 +46,7 @@ class Users_model extends CI_Model{
         $this->db->delete("users");
     }
 
-    public function is_duplicated($field, $vakue, $id = NULL){
+    public function is_duplicated($field, $value, $id = NULL){
         if (!empty($id)){
              $this->db->where("user_id <>", $id);
         }
