@@ -111,4 +111,12 @@ $(function(){
         })
         return false;
     });
+
+    var dt_course = $("#dt_courses").DataTable({
+        "serverSide": true,
+        "ajax": {
+            "url": BASE_URL + "restrito/ajax_list_course",
+            "type": "POSR",
+        }
+    })
 })
