@@ -13,9 +13,16 @@ class Restrito extends CI_Controller {
 	{
 		if ($this->session->userdata("user_id")){
 			$data = array(
+				"styles" => array(
+					"dataTables.bootstrap.min.css",
+					"datatables.min.css"
+				),
 				"scripts" => array(
+					"sweetalert2.all.min.js",
+					"dataTables.bootstrap.min.js",
+					"datatables.min.js",
 					"util.js",
-					"restrict.js"
+					"restrict.js" 
 				),
 				"user_id" => $this->session->userdata("user_id")
 			);
