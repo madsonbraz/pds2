@@ -113,10 +113,32 @@ $(function(){
     });
 
     var dt_course = $("#dt_courses").DataTable({
+        
+		"autoWidth": false,
+		"processing": true,
         "serverSide": true,
         "ajax": {
             "url": BASE_URL + "restrito/ajax_list_course",
-            "type": "POSR",
-        }
-    })
+            "type": "POST",
+        },
+        "columnDefs": [
+			{ targets: "no-sort", orderable: false },
+			{ targets: "dt-center", className: "dt-center" },
+		]
+    });
+
+    var dt_member = $("#dt_team").DataTable({
+        
+		"autoWidth": false,
+		"processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": BASE_URL + "restrito/ajax_list_member",
+            "type": "POST",
+        },
+        "columnDefs": [
+			{ targets: "no-sort", orderable: false },
+			{ targets: "dt-center", className: "dt-center" },
+		]
+    });
 })
