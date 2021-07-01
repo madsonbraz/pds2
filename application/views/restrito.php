@@ -72,10 +72,10 @@
                         <table id="dt_users" class="table table-striped table-bordered"> 
                             <thead>
                                 <tr class="tableheader">
-                                    <th>Login</th>
+                                    <th class="dt-center">Login</th>
                                     <th>Nome</th>
                                     <th>E-mail</th>
-                                    <th>Ações</th>
+                                    <th class="dt-center no-sort">Ações</th>
                                 </th>
                             </thead>
                             <tbody>
