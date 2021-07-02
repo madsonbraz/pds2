@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'alfahelix',
+	'hostname' => 'sql474.main-hosting.eu',
+	'username' => 'u491401037_course',
+	'password' => '6YqjwE=*l',
+	'database' => 'u491401037_course',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

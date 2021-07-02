@@ -284,26 +284,26 @@ class Restrito extends CI_Controller {
 		echo json_encode($json);
 	}
 
-	public function ajax_get_course_data(){
-		
-		if(!$this->input->is_ajax_request()){
-			exit("Acesso não permitido");
+	public function ajax_get_course_data() {
+
+		if (!$this->input->is_ajax_request()) {
+			exit("Nenhum acesso de script direto permitido!");
 		}
-		
+
 		$json = array();
 		$json["status"] = 1;
 		$json["input"] = array();
-		
+
 		$this->load->model("courses_model");
-		
+
 		$course_id = $this->input->post("course_id");
 		$data = $this->courses_model->get_data($course_id)->result_array()[0];
 		$json["input"]["course_id"] = $data["course_id"];
 		$json["input"]["course_name"] = $data["course_name"];
 		$json["input"]["course_duration"] = $data["course_duration"];
 		$json["input"]["course_description"] = $data["course_description"];
-		
-		$json["input"]["course_img"] = base_url() . $data["course_img"];
+
+		$json["img"]["course_img"] = base_url() . $data["course_img"];
 
 		echo json_encode($json);
 	}
@@ -333,8 +333,9 @@ class Restrito extends CI_Controller {
 		echo json_encode($json);
 	}
 
-	public function ajax_list_course(){
-		if (!$this->input->is_ajax_request()){
+	public function ajax_list_course() {
+
+		if (!$this->input->is_ajax_request()) {
 			exit("Nenhum acesso de script direto permitido!");
 		}
 
@@ -342,30 +343,33 @@ class Restrito extends CI_Controller {
 		$courses = $this->courses_model->get_datatable();
 
 		$data = array();
-		foreach($courses as $course){
+		foreach ($courses as $course) {
 
 			$row = array();
 			$row[] = $course->course_name;
-			if ($course->course_img){
-				$row[] = '<img src="'.base_url().$course->course_img.'" style="max-height: 100px; max-widght: 100px;">';
+
+			if ($course->course_img) {
+				$row[] = '<img src="'.base_url().$course->course_img.'" style="max-height: 100px; max-width: 100px;">';
 			} else {
-				$row[]="";
+				$row[] = "";
 			}
 
-		$row[] = $course->course_duration;
-		$row[] = '<div class="description">'.$course->course_description.'</div>';
+			$row[] = $course->course_duration;
+			$row[] = '<div class="description">'.$course->course_description.'</div>';
 
-		$row[] = '<div style="display: inline-block;">
-						<button class="btn btn-primary btn-edit-course"
-						 	course_id="'.$course->course_id.'">
-							<i class ="fa fa-edit"></i>
+			$row[] = '<div style="display: inline-block;">
+						<button class="btn btn-primary btn-edit-course" 
+							course_id="'.$course->course_id.'">
+							<i class="fa fa-edit"></i>
 						</button>
 						<button class="btn btn-danger btn-del-course" 
 							course_id="'.$course->course_id.'">
 							<i class="fa fa-times"></i>
 						</button>
 					</div>';
-		$data[] = $row;
+
+			$data[] = $row;
+
 		}
 
 		$json = array(

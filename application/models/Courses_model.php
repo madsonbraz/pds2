@@ -39,10 +39,10 @@ class Courses_model extends CI_Model{
         return $this->db->get()->num_rows()>0;
     }
 
-    var $column_search = array("course_name","course_description");
-    var $column_order = array("course_name","","course_duration");
-    
-    private function _get_datatable() {
+    var $column_search = array("course_name", "course_description");
+	var $column_order = array("course_name", "", "course_duration");
+
+	private function _get_datatable() {
 
 		$search = NULL;
 		if ($this->input->post("search")) {
@@ -78,26 +78,30 @@ class Courses_model extends CI_Model{
 		}
 	}
 
-    public function get_datatable(){
+	public function get_datatable() {
 
-        $lengh = $this->input->post("lenght");
-        $start = $this->input->post("start");
-        $this->_get_datatable();
-        if (isset($lengh) && $lengh != -1){
-            $this->db->limit($lengh, $start);
-        }
-        return $this->db->get()->result();
-    }
+		$length = $this->input->post("length");
+		$start = $this->input->post("start");
+		$this->_get_datatable();
+		if (isset($length) && $length != -1) {
+			$this->db->limit($length, $start);
+		}
+		return $this->db->get()->result();
+	}
 
-    public function records_filtered(){
-        $this->_get_datatable();
-        return $this->db->get()->num_rows();
-    }
+	public function records_filtered() {
 
-    public function records_total(){
-        $this->db->from("courses");
-        return $this->db->count_all_results();
-    }
+		$this->_get_datatable();
+		return $this->db->get()->num_rows();
+
+	}
+
+	public function records_total() {
+
+		$this->db->from("courses");
+		return $this->db->count_all_results();
+
+	}
 
 
 }
