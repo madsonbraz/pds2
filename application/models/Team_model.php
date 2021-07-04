@@ -12,7 +12,8 @@ class Team_model extends CI_Model{
             $this->db->select($select);
         }
         $this->db->from("team");
-        $this->db->from("member_id", $id);
+        $this->db->where("member_id", $id);
+        return $this->db->get();
     }
 
     public function insert($data){

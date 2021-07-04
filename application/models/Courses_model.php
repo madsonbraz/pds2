@@ -12,7 +12,7 @@ class Courses_model extends CI_Model{
             $this->db->select($select);
         }
         $this->db->from("courses");
-        $this->db->from("course_id", $id);
+        $this->db->where("course_id", $id);
         return $this->db->get();
     }
 
