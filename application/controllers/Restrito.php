@@ -198,9 +198,10 @@ class Restrito extends CI_Controller {
 				$file_name = basename($data["member_photo"]);
 				$old_path = getcwd() . "/tmp/" . $file_name;
 				$new_path = getcwd() . "/public/images/team/" . $file_name;
-
+				rename($old_path, $new_path);
 				$data["member_photo"] = "/public/images/team/" . $file_name;
-
+			} else {
+				unset($data["member_photo"]);
 			}
 			if (empty($data["member_id"])){
 				$this->team_model->insert($data);
@@ -355,6 +356,56 @@ class Restrito extends CI_Controller {
 
 		echo json_encode($json);
 	}
+	public function ajax_delete_course_data() {
+
+		if (!$this->input->is_ajax_request()) {
+			exit("Nenhum acesso de script direto permitido!");
+		}
+
+		$json = array();
+		$json["status"] = 1;
+		$this->load->model("courses_model");
+
+		$course_id = $this->input->post("course_id");
+		$this->courses_model->delete($course_id);
+		
+
+		echo json_encode($json);
+	}
+
+	public function ajax_delete_member_data() {
+
+		if (!$this->input->is_ajax_request()) {
+			exit("Nenhum acesso de script direto permitido!");
+		}
+
+		$json = array();
+		$json["status"] = 1;
+
+		$this->load->model("team_model");
+		$member_id = $this->input->post("member_id");
+		$this->team_model->delete($member_id);
+		
+
+		echo json_encode($json);
+	}
+
+	public function ajax_delete_user_data() {
+
+		if (!$this->input->is_ajax_request()) {
+			exit("Nenhum acesso de script direto permitido!");
+		}
+
+		$json = array();
+		$json["status"] = 1;
+
+		$this->load->model("users_model");
+		$user_id = $this->input->post("user_id");
+		$this->users_model->delete($user_id);
+		
+
+		echo json_encode($json);
+	}
 
 	public function ajax_list_course() {
 
@@ -465,12 +516,12 @@ class Restrito extends CI_Controller {
 			$row[] = $user->user_full_name;
 			$row[] = $user->user_email;
 			$row[] = '<div style="display: inline-block;">
-						<button class="btn btn-primary btn-edit-member"
-						 	member_id="'.$user->user_id.'">
+						<button class="btn btn-primary btn-edit-user"
+						 	user_id="'.$user->user_id.'">
 							<i class ="fa fa-edit"></i>
 						</button>
-						<button class="btn btn-danger btn-del-member" 
-							member_id="'.$user->user_id.'">
+						<button class="btn btn-danger btn-del-user" 
+							user_id="'.$user->user_id.'">
 							<i class="fa fa-times"></i>
 						</button>
 					</div>';

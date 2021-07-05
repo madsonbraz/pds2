@@ -22,7 +22,7 @@ class Team_model extends CI_Model{
 
     public function update($id, $data){
         $this->db->where("member_id", $id);
-        $this->db->from("team", $data);
+        $this->db->update("team", $data);
     }
 
     public function delete($id){
@@ -38,6 +38,7 @@ class Team_model extends CI_Model{
         $this->db->where($field, $value);
         return $this->db->get()->num_rows()>0;
     }
+
     var $column_search = array("member_name","member_description");
     var $column_order = array("member_name",);
     

@@ -26,57 +26,50 @@
 		<section class="overlay-dark bg-img1 dark-bg short-section">
 			<div class="container text-center">
 				<div class="row">
-					<div class="col-md-3 mb-sm-30">
+					<div class="col-md-offset-3 col-mb-3 mb-sm-30">
 						<div class="counter-item">
-							<h2 data-count="59">59</h2>
-							<h6>Instrutores</h6>
+							<a class="page-scroll" href="#course">
+								<h6>Cursos</h6>
+							</a>
 						</div>
 					</div>
-					<div class="col-md-3 mb-sm-30">
+					<div class="col-mb-3 mb-sm-30">
 						<div class="counter-item">
-							<h2 data-count="1054">1054</h2>
-							<h6>Clients</h6>
+							<a class="page-scroll" href="#team">
+								<h6>Equipe</h6>
+							</a>
 						</div>
 					</div>
-					<div class="col-md-3 mb-sm-30">
-						<div class="counter-item">
-							<h2 data-count="34">34</h2>
-							<h6>Team</h6>
-						</div>
-					</div>
-					<div class="col-md-3 mb-sm-30">
-						<div class="counter-item">
-							<h2 data-count="154">154</h2>
-							<h6>Project</h6>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</section>
-		<section id="portfolio" class="light-bg">
+		<section id="course" class="light-bg">
 			<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="section-title">
-						<h2>Portfolio</h2>
+						<h2>Cursos</h2>
 						<p>Our portfolio is the best way to show our work, you can see here a big range of our work. Check them all and you will find what you are looking for.</p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<!-- start portfolio item -->
-				<div class="col-md-4">
-					<div class="ot-portfolio-item">
-						<figure class="effect-bubba">
-							<img src="<?php echo base_url();?>public/images/demo/portfolio-1.jpg" alt="img02" class="img-responsive" />
-							<figcaption>
-								<h2>Dean & Letter</h2>
-								<p>Branding, Design</p>
-								<a href="#" data-toggle="modal" data-target="#Modal-1">View more</a>
-							</figcaption>
-						</figure>
-					</div>
-				</div>
+				<?php if (!empty($courses)){
+					foreach ($courses as $course){ ?>
+						<div class="col-md-4">
+							<div class="ot-portfolio-item">
+								<figure class="effect-bubba">
+									<img src="<?=base_url().$course["course_img"]?>" alt="img02" class="img-responsive" />
+									<figcaption>
+										<a href="#" data-toggle="modal" data-target="#Modal-1">View more</a>
+									</figcaption>
+								</figure>
+							</div>
+						</div>
+			<?php	}
+				} ?>
+				
 				<!-- end portfolio item -->
 				<!-- start portfolio item -->
 				<div class="col-md-4">
